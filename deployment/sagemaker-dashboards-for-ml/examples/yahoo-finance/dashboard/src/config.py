@@ -1,0 +1,5 @@
+REGION = "your_region_name"
+BUCKET = "your_bucket_name"
+DATABASE = "your_database_name"
+TABLE = "your_table_name"
+INDEX_COLUMN_NAME = "date"

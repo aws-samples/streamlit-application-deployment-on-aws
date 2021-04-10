@@ -1,0 +1,5 @@
+REGION = "ap-southeast-2"
+BUCKET = "streamlit-dashboard-blog-post"
+DATABASE = "streamlit-dashboard-blog-post"
+TABLE = "streamlit_dashboard_blog_post"
+INDEX_COLUMN_NAME = "date"

@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  AWS CloudFormation Template for Streamlit Market Data Visualisation
+Parameters:
+  RawDataBucketName:
+    Description: "Which Bucket is Used Storing Raw Data"
+    Type: String
+    Default: "streamlit-dashboard-blog-post"
+  CrawlerName:
+    Description: "Name of the S3 Crawler"
+    Type: String
+    Default: "glue-crawler-yahoo"
+
+Resources:
+  IAMRoleETLGlue:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Path: "/"
+      RoleName: "BCSUN_Expt"
+      AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"glue.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+      MaxSessionDuration: 3600
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+        - "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+        - "arn:aws:iam::aws:policy/service-role/AWSGlueServiceNotebookRole"
+        - "arn:aws:iam::aws:policy/AmazonAthenaFullAccess"
+        - "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+        - "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+        - "arn:aws:iam::aws:policy/AWSGlueConsoleSageMakerNotebookFullAccess"
+        - "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
+      Description: "Allows Glue to call AWS services on your behalf. "
+
+  # Glue Data Catelog
+  GlueDatabase:
+    Type: "AWS::Glue::Database"
+    Properties:
+      DatabaseInput: #required
+        Name: !Ref RawDataBucketName
+      CatalogId: !Ref "AWS::AccountId" #required
+
+  GlueCrawler:
+    Type: "AWS::Glue::Crawler"
+    Properties:
+      Role: !Ref IAMRoleETLGlue #required
+      Description: "Crawler to Create Catalog of Master Tables of Churn For Training"
+      SchemaChangePolicy:
+        UpdateBehavior: "UPDATE_IN_DATABASE"
+        DeleteBehavior: "DEPRECATE_IN_DATABASE"
+      DatabaseName: !Ref GlueDatabase
+      Targets: #required
+        S3Targets:
+          - Path: !Sub "s3://${RawDataBucketName}"
+            Exclusions:
+              - "tmp**"
+              - "dump**"
+              - "cfn**"
+      Name: !Ref CrawlerName
+
+Outputs:
+  S3Bucket:
+    Description: The S3 Bucket of Working Space
+    Value: !Sub s3://${RawDataBucketName}
+    Export:
+      Name: S3Bucket

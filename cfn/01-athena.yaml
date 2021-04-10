@@ -1,0 +1,19 @@
+Parameters:
+  DataBucketName:
+    Description: "Which Bucket is Used Storing Processed Data"
+    Type: String
+Resources:
+  AthenaPrimaryWorkGroup:
+    Type: AWS::Athena::WorkGroup
+    Properties:
+      Name: "primary"
+      State: ENABLED
+      WorkGroupConfigurationUpdates:
+        BytesScannedCutoffPerQuery: 1000000000
+        EnforceWorkGroupConfiguration: false
+        PublishCloudWatchMetricsEnabled: true
+        RequesterPaysEnabled: false
+        ResultConfigurationUpdates:
+          OutputLocation: !Sub "s3://${DataBucketName}/dump"
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
