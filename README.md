@@ -1,9 +1,4 @@
-# 🎛️ Data EDA Dashboard using Streamlit and its Deployment to AWS Cloud
-
-## 📔 Tutorial
-
-
-Follow: [notebook_example](/notebook/Streamlit%20Dashboard%20Data%20ETL.ipynb)
+# 🎛️ Build An Interactive Dashboard for Exploratory Data Analysis using Streamlit and Deploy on AWS Cloud
 
 ## 💻 Installation and Local Running
 
@@ -19,19 +14,13 @@ Modify and update:
 - `script/eda.py`
 - `script/config.py`
 
-## 🏛️ Architecture
+## :notebook_with_decorative_cover: Summary
+
+This blogpost will teach you how to standup an Exploratory Data Analysis EDA dashboard for business users using AWS services with [Streamlit](https://streamlit.io/). This EDA dashboard allows for quick end-to-end deployment with minimal effort and the ability to scale out the application and database layers as needed. The EDA dashboard serves insights in a secure and robust way without getting bogged down in time-consuming frontend development.
 
 ![solution_archi](images/arch.png)
 
-# Build An Interactive Dashboard for Exploratory Data Analysis
-
-
-
-## Summary
-
-This blogpost will teach you how to standup an Exploratory Data Analysis EDA dashboard for business users using AWS services with[Streamlit](https://streamlit.io/). This EDA dashboard allows for quick end-to-end deployment with minimal effort and the ability to scale out the application and database layers as needed. The EDA dashboard serves insights in a secure and robust way without getting bogged down in time-consuming frontend development.
-[Image: Streamlit_Arch.png]
-The database layer is backed by Amazon [S3](https://aws.amazon.com/s3/), [Amazon Glue](https://aws.amazon.com/glue/?nc2=type_a&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc), and [Amazon Athena](https://aws.amazon.com/athena/?nc2=type_a&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc). Business users can upload flat files into the S3 bucket, this then triggers an [Amazon Glue Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html)which loads the data into a database table for querying by Amazon Athena.
+The database layer is backed by Amazon [S3](https://aws.amazon.com/s3/), [Amazon Glue](https://aws.amazon.com/glue/?nc2=type_a&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc), and [Amazon Athena](https://aws.amazon.com/athena/?nc2=type_a&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc). Business users can upload flat files into the S3 bucket, this then triggers an [Amazon Glue Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html) which loads the data into a database table for querying by Amazon Athena.
 
 The application layer makes use of a combination of Streamlit, [Amazon Cognito](https://aws.amazon.com/cognito/?nc2=type_a), an [Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) ALB, [Amazon Elastic Container Service](https://aws.amazon.com/ecs/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&ecs-blogs.sort-by=item.additionalFields.createdDate&ecs-blogs.sort-order=desc) ECS, and [Amazon SageMaker.](https://aws.amazon.com/sagemaker/) The Streamlit application is stood up via a SageMaker notebook and hosted on ECS behind an ALB. Business users then use Amazon Cognito to login and run queries against the Amazon Athena database, getting analytic results back visually from the dashboard.
 
@@ -41,7 +30,7 @@ To get started, you will first need to install the required packages on your loc
 
 First clone the Github repo into a local folder.
 
-`git clone https://github.com/sunbc0120/streamlit-deployment-aws.git `
+`git clone https://github.com/sunbc0120/streamlit-deployment-aws.git`
 
 ### Building Out the Infrastructure
 
@@ -72,9 +61,11 @@ COGNITO_USER=XYZ@XYZ.com
 
 With that in mind, first make sure that the Python dependencies are installed:
 
-`python3 -m venv venv`
-`source venv/bin/activate`
-`pip install -r requirements.txt`
+```python
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 Next, to kick off the Yahoo! Finance data pull and cloud infrastructure creation, run the following command:
 
@@ -178,11 +169,13 @@ The console should have all stacks and nested stacks in the green:
 
 At the end of the bash script it takes the environment variables set for the stack resource names and writes them to two key files. The first of these is  `streamlit-package/dashboard/src/config.py` . This file is used for configuring the frontend deployment of the dashboard once it is inside of the SageMaker notebook. For reference, the code below is what it looks like before `standup.sh.` Note that after the the script runs, these will be updated based on how the stack environment variable names were set.
 
-`REGION = "your_region_name"`
-`BUCKET = "your_bucket_name"`
-`DATABASE = "your_database_name"`
-`TABLE = "your_table_name"`
-`INDEX_COLUMN_NAME = "date"`
+```python
+REGION = "your_region_name"
+BUCKET = "your_bucket_name"
+DATABASE = "your_database_name"
+TABLE = "your_table_name"
+INDEX_COLUMN_NAME = "date"
+```
 
 The second script, `delete_resources.sh` ,contains similar values but is for the actual cleanup process of tearing down the CloudFormation stacks and deleting the S3 bucket with the data. This too updates with the stack environment variable names populated.
 
@@ -254,6 +247,7 @@ To clean up the resources to prevent further charges run the following file:
 This will tear down the CloudFormation stacks and delete the S3 bucket the data is stored in. To confirm that everything is deleted, go to your CloudFormation console. The console should now be absent of the all related stacks.
 
 ![empty_cfn](images/EmptyCloudFormation.png)
+
 ### Conclusion
 
 In this blog post you learned how to standup an interactive dashboard for EDA with AWS Services and Streamlit. This blog post is only really a starting point. Using Amazon Cognito combined with ECS and an Amazon Application Load Balancer allows for the application layer to scale out as needed for business users. Likewise, the Amazon Glue and Amazon Athena database backend allows for new data sources to be added and provides a way in which data is easily refreshed. Finally, one can extend the dashboard further by using Amazon SageMaker to run machine learning on the data as it comes into the dashboard.
