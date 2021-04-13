@@ -78,7 +78,7 @@ aws cloudformation create-stack \
 ParameterKey=SageMakerNotebookGitRepository,ParameterValue=https://github.com/sunbc0120/streamlit-deployment-aws.git \
 ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}  --disable-rollback
 
-echo "Writing environment variables to the config file in streamlit-package"
+echo "Writing environment variables to the config file for the streamlit-package"
 cd ..
 
 config_file=deployment/sagemaker-dashboards-for-ml/examples/yahoo-finance/dashboard/src/config.py
@@ -90,7 +90,7 @@ sed -i -e "s your_table_name ${TABLE_NAME} g"  ${config_file}
 
 rm -rf ${config_file}-e
 
-echo "Writing environment variables to delete resources file"
+echo "Writing environment variables to delete the resources file"
 
 sed -i -e "s athena_name ${stack_name}-athena  g" delete_resources.sh
 sed -i -e "s glue_name ${stack_name}-glue  g" delete_resources.sh
@@ -103,7 +103,3 @@ echo "Kicking off glue craweler..."
 aws glue start-crawler --name ${GLUE_CRAWLER_NAME}
 
 echo "Complete"
-
-# to test athena
-# aws athena start-query-execution --query-string "SELECT * FROM 	
-# {TABLE_NAME} limit 10;" --query-execution-context Database=${DATABASE_NAME}
