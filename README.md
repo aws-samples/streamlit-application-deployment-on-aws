@@ -34,7 +34,7 @@ First clone the Github repo into a local folder.
 
 ### Building Out the Infrastructure
 
-In the cloned directory there should be a file called  `standup.sh`. We will next use this script to build out the application layer and database layer infrastructure.
+In the cloned directory there should be a file called `standup.sh`. We will next use this script to build out the application layer and database layer infrastructure.
 
 A quick preview of the first lines shows that the resource names are set here.
 Specifically, the stack and sub-stack names along with the names for the S3 bucket where the data is stored, names for Glue, and the region that hosts the dashboard.
@@ -98,7 +98,7 @@ tickers = {
 }
 ```
 
-In addition to requiring an S3 Bucket, Amazon Glue needs an Amazon Athena Workgroup to be in place before it can load data from S3 into a data table.  The CloudFormation `create-change-set`  and `execute-change-set` commands do this.
+In addition to requiring an S3 Bucket, Amazon Glue needs an Amazon Athena Workgroup to be in place before it can load data from S3 into a data table.  The CloudFormation `create-change-set` and `execute-change-set` commands do this.
 
 ```bash
 aws cloudformation create-change-set --stack-name ${stack_name}-athena --change-set-name ImportChangeSet --change-set-type IMPORT \
@@ -138,7 +138,7 @@ cd ./cloudformation/assistants/bucket-assistant/ && pip install -r requirements.
 cd ../../../..
 ```
 
-After this is completed, all the CloudFormation templates are then packaged into a single deployment file via the AWS CLI  `aws cloudformation package` like so:
+After this is completed, all the CloudFormation templates are then packaged into a single deployment file via the AWS CLI `aws cloudformation package` like so:
 
 ```bash
 aws cloudformation package \
@@ -160,14 +160,14 @@ ParameterKey=SageMakerNotebookGitRepository,ParameterValue=https://github.com/su
 ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}  --disable-rollback
 ```
 
-Note the `ParameterKey` and `ParameterValue` provided to to the `create-stack` command at the end point to the repository with the Streamlit frontend that is cloned directly into the SageMaker Notebook. In this case, it is https://github.com/sunbc0120/streamlit-deployemnt-aws. The second parameter is the Cognito login you will need to get inside the dashboard once it is stood up.
+Note the `ParameterKey` and `ParameterValue` provided to the `create-stack` command at the end point to the repository with the Streamlit frontend that is cloned directly into the SageMaker Notebook. In this case, it is https://github.com/sunbc0120/streamlit-deployemnt-aws. The second parameter is the Cognito login you will need to get inside the dashboard once it is stood up.
 
 The CloudFormation should take some time to standup all the resources.
 Once completed you can go into the AWS console for CloudFormation and confirm that all resources are created.
 The console should have all stacks and nested stacks in the green:
 ![all_green](images/AllGreenCFN.png)
 
-At the end of the bash script it takes the environment variables set for the stack resource names and writes them to two key files. The first of these is  `streamlit-package/dashboard/src/config.py` . This file is used for configuring the frontend deployment of the dashboard once it is inside of the SageMaker notebook. For reference, the code below is what it looks like before `standup.sh.` Note that after the the script runs, these will be updated based on how the stack environment variable names were set.
+At the end of the bash script, it takes the environment variables set for the stack resource names and writes them to two key files. The first of these is `streamlit-package/dashboard/src/config.py`. This file is used for configuring the frontend deployment of the dashboard once it is inside of the SageMaker notebook. For reference, the code below is what it looks like before `standup.sh`. Note that after the script runs, these will be updated based on how the stack environment variable names were set.
 
 ```python
 REGION = "your_region_name"
@@ -177,11 +177,11 @@ TABLE = "your_table_name"
 INDEX_COLUMN_NAME = "date"
 ```
 
-The second script, `delete_resources.sh` ,contains similar values but is for the actual cleanup process of tearing down the CloudFormation stacks and deleting the S3 bucket with the data. This too updates with the stack environment variable names populated.
+The second script, `delete_resources.sh`, contains similar values but is for the actual cleanup process of tearing down the CloudFormation stacks and deleting the S3 bucket with the data. This too updates with the stack environment variable names populated.
 
 ### Frontend Deployment
 
-Now that all the underlying infrastructure is fully constructed and the data is loaded in to Amazon Athena,  you can go to the next step of deploying the Streamlit application for users to access.
+Now that all the underlying infrastructure is fully constructed and the data is loaded in to Amazon Athena, you can go to the next step of deploying the Streamlit application for users to access.
 
 Go over to Amazon Web Services console and confirm that the notebook instance is started by going to the Amazon SageMaker service menu. From the Amazon SageMaker service menu, go to Notebooks and under the Notebooks tab select Notebook instances. You should see the one created by the script.
 
@@ -194,13 +194,13 @@ Next, go to the file `config.py` file under `dashboard/src`.
 
 Update the Notebook’s `config.py` parameter names with the `config.py` names that populated in your local directory after you ran the `standup.sh` script. Save the changes to the config file.
 
-Now that the configurations are set, go back to the `yahoo-finance`  directory level and open the notebook titled `yahoo_finance.ipynb`.
+Now that the configurations are set, go back to the `yahoo-finance` directory level and open the notebook titled `yahoo_finance.ipynb`.
 
 ![notebook](images/InsideSageMakerNB.png)
 
 Instructions on how to standup the Streamlit application are inside this notebook. The notebook will walk you through how to build the Streamlit Docker Container locally and how to test that the dashboard is running. You will then push the Docker container to ECR whereby it is deployed to [Amazon Elastic Container Service](https://aws.amazon.com/ecs/)ECS as service. Amazon ECS is a fully-managed service for running Docker containers. You don't need to provision or manage servers; you just define the task that needs to be run and specify the resources the task needs. The AWS CloudFormation Stack already created a number of Amazon ECS resources for the dashboard: most notably a [Cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html), a [Task Definition](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html) and a [Service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html).
 
-The image build and push is accomplished by running the below commands with the passed environment variables set by you inside the Notebook.
+Accomplish the image build and push by running the below commands with the passed environment variables set by you inside the Notebook.
 
 ```bash
 (cd dashboard && docker build -t {image_name} --build-arg DASHBOARD_SAGEMAKER_MODEL={model_name} .)
@@ -244,7 +244,7 @@ To clean up the resources to prevent further charges run the following file:
 
 `bash delete_resources.sh`
 
-This will tear down the CloudFormation stacks and delete the S3 bucket the data is stored in. To confirm that everything is deleted, go to your CloudFormation console. The console should now be absent of the all related stacks.
+This will tear down the CloudFormation stacks and delete the S3 bucket the data is stored in. To confirm that everything is deleted, go to your CloudFormation console. The console should now be absent of the all-related stacks.
 
 ![empty_cfn](images/EmptyCloudFormation.png)
 
