@@ -16,7 +16,7 @@ Modify and update:
 
 ## :notebook_with_decorative_cover: Summary
 
-This blog post will teach you how to standup an Exploratory Data Analysis EDA dashboard for business users using AWS services with [Streamlit](https://streamlit.io/). This EDA dashboard allows for quick end-to-end deployment with minimal effort and the ability to scale out the application and database layers as needed. The EDA dashboard serves insights in a secure and robust way without getting bogged down in time-consuming frontend development.
+This blog post will teach you how to standup an Exploratory Data Analysis EDA dashboard for business users using AWS services with [Streamlit](https://streamlit.io/), which is an open source framework for Data Scientists to efficiently create interactive web-based data applications in pure Python. In this tutorial, the EDA dashboard allows for quick end-to-end deployment with minimal effort and the ability to scale out the application and database layers as needed. The EDA dashboard serves insights in a secure and robust way without getting bogged down in time-consuming frontend development.
 
 ![solution_archi](images/arch.png)
 
