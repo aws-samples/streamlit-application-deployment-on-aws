@@ -40,6 +40,8 @@ aws cloudformation create-change-set --stack-name ${stack_name}-athena --change-
 --resources-to-import "[{\"ResourceType\":\"AWS::Athena::WorkGroup\",\"LogicalResourceId\":\"AthenaPrimaryWorkGroup\",\"ResourceIdentifier\":{\"Name\":\"primary\"}}]" \
 --template-body file://cfn/01-athena.yaml --parameters ParameterKey="DataBucketName",ParameterValue=${S3_BUCKET_NAME}
 
+sleep 10
+
 aws cloudformation execute-change-set --change-set-name ImportChangeSet --stack-name ${stack_name}-athena
 
 echo "Building Glue Crawler"
