@@ -23,6 +23,8 @@ echo "region=${AWS_DEFAULT_REGION}"
 
 echo "Downloading and loading the data into S3"
 
+mkdir -p ./data
+
 # must be lower case for s3
 S3_BUCKET_NAME=$(echo "$S3_BUCKET_NAME" | awk '{print tolower($0)}')
 
