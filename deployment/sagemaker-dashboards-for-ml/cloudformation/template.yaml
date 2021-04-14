@@ -199,14 +199,6 @@ Mappings:
       id: 76674570225
     sa-east-1:
       id: 507241528517
-    us-gov-west-1*:
-      id: 48591011584
-    us-gov-east-1*:
-      id: 190560391635
-    cn-north-1*:
-      id: 638102146993
-    cn-northwest-1*:
-      id: 37604701340
 
 Conditions:
   AddDevelopmentStack: !Equals [!Ref AddDevelopmentStack, "true"]
