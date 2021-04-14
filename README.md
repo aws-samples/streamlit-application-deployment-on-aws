@@ -98,7 +98,7 @@ tickers = {
 }
 ```
 
-In addition to requiring an S3 Bucket, Amazon Glue needs an Amazon Athena Workgroup to be in place before it can load data from S3 into a data table.  The CloudFormation `create-change-set` and `execute-change-set` commands do this.
+In addition to requiring an S3 Bucket, Amazon Glue needs an Amazon Athena [Primary Workgroup](https://docs.aws.amazon.com/athena/latest/ug/workgroups-create-update-delete.html) to be in place before it can load data from S3 into a data table. In this post you are creating one from scratch in your account. Note that if you already have one setup, it will need to be manually updated with the S3 url. The CloudFormation `create-change-set` and `execute-change-set` commands do this.
 
 ```bash
 aws cloudformation create-change-set --stack-name ${stack_name}-athena --change-set-name ImportChangeSet --change-set-type IMPORT \
