@@ -18,7 +18,7 @@ echo "stack name=${stack_name}"
 echo "bucket name=${S3_BUCKET_NAME}" 
 echo "crawler name=${GLUE_CRAWLER_NAME}"
 echo "database name=${DATABASE_NAME}"
-echo "table name= ${TABLE_NAME}"
+echo "table name=${TABLE_NAME}"
 echo "region=${AWS_DEFAULT_REGION}"
 
 echo "Downloading and loading the data into S3"
@@ -103,7 +103,7 @@ sed -i -e "s your_s3_bucket_name ${S3_BUCKET_NAME} g" delete_resources.sh
 
 rm -rf delete_resources.sh-e
 
-echo "Kicking off glue craweler..."
+echo "Kicking off glue crawler..."
 aws glue start-crawler --name ${GLUE_CRAWLER_NAME}
 
 echo "Complete"
