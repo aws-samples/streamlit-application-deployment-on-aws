@@ -30,7 +30,7 @@ To get started, you will first need to install the required packages on your loc
 
 First clone the Github repo into a local folder.
 
-`git clone https://github.com/sunbc0120/streamlit-deployment-aws.git`
+`git clone https://github.com/aws-samples/streamlit-application-deployment-on-aws.git`
 
 ### Building Out the Infrastructure
 
