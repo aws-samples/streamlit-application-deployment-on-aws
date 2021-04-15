@@ -160,7 +160,7 @@ ParameterKey=SageMakerNotebookGitRepository,ParameterValue=https://github.com/aw
 ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}  --disable-rollback
 ```
 
-Note the `ParameterKey` and `ParameterValue` provided to the `create-stack` command at the end point to the repository with the Streamlit frontend that is cloned directly into the SageMaker Notebook. In this case, it is https://github.com/sunbc0120/streamlit-deployemnt-aws. The second parameter is the Cognito login you will need to get inside the dashboard once it is stood up.
+Note the `ParameterKey` and `ParameterValue` provided to the `create-stack` command at the end point to the repository with the Streamlit frontend that is cloned directly into the SageMaker Notebook. In this case, it is https://github.com/aws-samples/streamlit-application-deployment-on-aws. The second parameter is the Cognito login you will need to get inside the dashboard once it is stood up.
 
 The CloudFormation should take some time to standup all the resources.
 Once completed you can go into the AWS console for CloudFormation and confirm that all resources are created.
