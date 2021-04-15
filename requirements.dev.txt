@@ -8,7 +8,7 @@ astroid==2.4.1            # via pylint
 attrs==19.3.0             # via jsonschema, pytest
 awscli==1.18.66           # via -r requirements.dev.in
 backcall==0.1.0           # via ipython
-bleach>=3.3.0             # via nbconvert
+bleach==3.1.5             # via nbconvert
 boto3==1.13.16            # via -r requirements.dev.in, sagemaker
 botocore==1.16.16         # via awscli, boto3, s3transfer
 certifi==2020.4.5.1       # via requests
@@ -31,7 +31,7 @@ ipython==7.14.0           # via ipykernel, ipywidgets, jupyter-console
 ipywidgets==7.5.1         # via jupyter
 isort==4.3.21             # via pylint
 jedi==0.17.0              # via ipython
-jinja2>=2.11.3            # via nbconvert, notebook
+jinja2==2.11.2            # via nbconvert, notebook
 jmespath==0.10.0          # via boto3, botocore
 joblib==0.15.1            # via sacremoses
 jsonschema==3.2.0         # via nbformat
@@ -48,7 +48,7 @@ mypy-extensions==0.4.3    # via mypy
 mypy==0.770               # via -r requirements.dev.in
 nbconvert==5.6.1          # via jupyter, notebook
 nbformat==5.0.6           # via ipywidgets, nbconvert, notebook
-notebook>=6.1.5           # via jupyter, widgetsnbextension
+notebook==6.0.3           # via jupyter, widgetsnbextension
 numpy==1.18.4             # via pandas, sagemaker, scipy, torch, transformers
 packaging==20.4           # via bleach, pytest, sagemaker
 pandas==1.0.3             # via -r requirements.dev.in
@@ -67,7 +67,7 @@ py==1.8.1                 # via pytest
 pyasn1==0.4.8             # via rsa
 pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
-pygments>=2.7.4           # via ipython, jupyter-console, nbconvert, qtconsole
+pygments==2.6.1           # via ipython, jupyter-console, nbconvert, qtconsole
 pylint==2.5.2             # via -r requirements.dev.in
 pyparsing==2.4.7          # via packaging
 pyrsistent==0.16.0        # via jsonschema
@@ -75,13 +75,13 @@ pytest==5.4.2             # via -r requirements.dev.in
 python-dateutil==2.8.1    # via botocore, jupyter-client, pandas
 python-dotenv==0.13.0     # via -r requirements.dev.in
 pytz==2020.1              # via pandas
-pyyaml>=5.4             # via awscli
+pyyaml==5.3.1             # via awscli
 pyzmq==19.0.1             # via jupyter-client, notebook, qtconsole
 qtconsole==4.7.4          # via jupyter
 qtpy==1.9.0               # via qtconsole
 regex==2020.5.14          # via sacremoses, transformers
 requests==2.23.0          # via transformers
-rsa>=4.1                # via awscli
+rsa==3.4.2                # via awscli
 s3transfer==0.3.3         # via awscli, boto3
 sacremoses==0.0.43        # via transformers
 sagemaker==1.59.0         # via -r requirements.dev.in
