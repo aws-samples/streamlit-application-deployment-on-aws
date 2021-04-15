@@ -7,9 +7,9 @@ AWS_DEFAULT_REGION=$(aws configure list | grep region | awk '{print $2}')
 
 #  Variables set for stack
 S3_BUCKET_NAME=${stack_name}-$(uuidgen | cut -d '-' -f 5)
-DATABASE_NAME=${stack_name}-blog
+DATABASE_NAME=${S3_BUCKET_NAME}
 GLUE_CRAWLER_NAME=${stack_name}-glue-cralwer
-TABLE_NAME=$(echo ${DATABASE_NAME} | tr - _)
+TABLE_NAME=$(echo ${S3_BUCKET_NAME} | tr - _)
 
 # Coginto user paramater
 COGNITO_USER=XYZ@XYZ.com
