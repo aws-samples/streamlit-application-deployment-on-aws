@@ -4,9 +4,9 @@ import sagemaker
 
 
 def get_notebook_name():
-    with open('/opt/ml/metadata/resource-metadata.json') as openfile:
+    with open("/opt/ml/metadata/resource-metadata.json") as openfile:
         data = json.load(openfile)
-    notebook_name = data['ResourceName']
+    notebook_name = data["ResourceName"]
     return notebook_name
 
 
@@ -23,7 +23,7 @@ def get_docker_run_command(port, image, local_dir_mount=False, debug=False):
     command = [f"docker run -p {port}:80"]
     if local_dir_mount:
         local_dir_mount = Path(local_dir_mount).resolve()
-        command += [f"-v {local_dir_mount}:/usr/src/app/src"]
+        command += [f"-v {local_dir_mount}:/usr/src/app/script"]
     command += [
         f"--env AWS_DEFAULT_REGION={region_name}",
         f"--env AWS_ACCESS_KEY_ID={credentials.access_key}",
@@ -31,8 +31,8 @@ def get_docker_run_command(port, image, local_dir_mount=False, debug=False):
         f"--env AWS_SESSION_TOKEN={credentials.token}",
     ]
     if debug:
-        command += [ "--env DASHBOARD_DEBUG=true" ]
+        command += ["--env DASHBOARD_DEBUG=true"]
     else:
-        command += [ "--env DASHBOARD_DEBUG=false" ]
-    command += [ f"{image}" ]
+        command += ["--env DASHBOARD_DEBUG=false"]
+    command += [f"{image}"]
     return " \\\n".join(command)
