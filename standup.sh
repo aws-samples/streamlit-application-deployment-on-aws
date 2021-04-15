@@ -38,17 +38,17 @@ rm -rf ./data
 
 echo "Building the Athena Workgroup"
 
-aws cloudformation create-change-set --stack-name ${stack_name}-athena --change-set-name ImportChangeSet --change-set-type IMPORT \
+aws cloudformation --region ${AWS_DEFAULT_REGION} create-change-set --stack-name ${stack_name}-athena --change-set-name ImportChangeSet --change-set-type IMPORT \
 --resources-to-import "[{\"ResourceType\":\"AWS::Athena::WorkGroup\",\"LogicalResourceId\":\"AthenaPrimaryWorkGroup\",\"ResourceIdentifier\":{\"Name\":\"primary\"}}]" \
 --template-body file://cfn/01-athena.yaml --parameters ParameterKey="DataBucketName",ParameterValue=${S3_BUCKET_NAME}
 
 sleep 10
 
-aws cloudformation execute-change-set --change-set-name ImportChangeSet --stack-name ${stack_name}-athena
+aws cloudformation --region ${AWS_DEFAULT_REGION} execute-change-set --change-set-name ImportChangeSet --stack-name ${stack_name}-athena
 
 echo "Building Glue Crawler"
 
-aws cloudformation create-stack --stack-name ${stack_name}-glue \
+aws cloudformation --region ${AWS_DEFAULT_REGION} create-stack --stack-name ${stack_name}-glue \
 --template-body file://cfn/02-crawler.yaml --capabilities CAPABILITY_NAMED_IAM \
 --parameters ParameterKey=RawDataBucketName,ParameterValue=${S3_BUCKET_NAME} \
 ParameterKey=CrawlerName,ParameterValue=${GLUE_CRAWLER_NAME}
@@ -68,13 +68,13 @@ cd ../../../..
 
 echo "Packaging up in Cloudformation and then creating the stack"
 
-aws cloudformation package \
+aws cloudformation --region ${AWS_DEFAULT_REGION} package \
 --template-file ./sagemaker-dashboards-for-ml/cloudformation/template.yaml \
 --s3-bucket ${S3_BUCKET_NAME} \
 --s3-prefix cfn \
 --output-template-file ../deployment/sagemaker-dashboards-for-ml/packaged.yaml
 
-aws cloudformation create-stack \
+aws cloudformation --region ${AWS_DEFAULT_REGION} create-stack \
 --stack-name "${stack_name}-sdy" \
 --template-body file://./sagemaker-dashboards-for-ml/packaged.yaml \
 --capabilities CAPABILITY_IAM \
