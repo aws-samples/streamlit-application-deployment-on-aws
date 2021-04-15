@@ -21,6 +21,12 @@ echo "database name=${DATABASE_NAME}"
 echo "table name=${TABLE_NAME}"
 echo "region=${AWS_DEFAULT_REGION}"
 
+echo "Create the Athena Workgroup"
+
+aws cloudformation --region ${AWS_DEFAULT_REGION} create-change-set --stack-name ${stack_name}-athena --change-set-name ImportChangeSet --change-set-type IMPORT \
+--resources-to-import "[{\"ResourceType\":\"AWS::Athena::WorkGroup\",\"LogicalResourceId\":\"AthenaPrimaryWorkGroup\",\"ResourceIdentifier\":{\"Name\":\"primary\"}}]" \
+--template-body file://cfn/01-athena.yaml --parameters ParameterKey="DataBucketName",ParameterValue=${S3_BUCKET_NAME} > /dev/null
+
 echo "Downloading and loading the data into S3"
 
 mkdir -p ./data
@@ -28,30 +34,24 @@ mkdir -p ./data
 # must be lower case for s3
 S3_BUCKET_NAME=$(echo "$S3_BUCKET_NAME" | awk '{print tolower($0)}')
 
-aws s3 mb s3://${S3_BUCKET_NAME}
+aws s3 mb s3://${S3_BUCKET_NAME} > /dev/null
 
 python3 ./script/yahoo_idx.py
 
-aws s3 sync ./data s3://${S3_BUCKET_NAME}
+aws s3 sync ./data s3://${S3_BUCKET_NAME} > /dev/null
 
 rm -rf ./data
 
-echo "Building the Athena Workgroup"
+echo "Executing the Athena Workgroup"
 
-aws cloudformation --region ${AWS_DEFAULT_REGION} create-change-set --stack-name ${stack_name}-athena --change-set-name ImportChangeSet --change-set-type IMPORT \
---resources-to-import "[{\"ResourceType\":\"AWS::Athena::WorkGroup\",\"LogicalResourceId\":\"AthenaPrimaryWorkGroup\",\"ResourceIdentifier\":{\"Name\":\"primary\"}}]" \
---template-body file://cfn/01-athena.yaml --parameters ParameterKey="DataBucketName",ParameterValue=${S3_BUCKET_NAME}
-
-sleep 10
-
-aws cloudformation --region ${AWS_DEFAULT_REGION} execute-change-set --change-set-name ImportChangeSet --stack-name ${stack_name}-athena
+aws cloudformation --region ${AWS_DEFAULT_REGION} execute-change-set --change-set-name ImportChangeSet --stack-name ${stack_name}-athena > /dev/null
 
 echo "Building Glue Crawler"
 
 aws cloudformation --region ${AWS_DEFAULT_REGION} create-stack --stack-name ${stack_name}-glue \
 --template-body file://cfn/02-crawler.yaml --capabilities CAPABILITY_NAMED_IAM \
 --parameters ParameterKey=RawDataBucketName,ParameterValue=${S3_BUCKET_NAME} \
-ParameterKey=CrawlerName,ParameterValue=${GLUE_CRAWLER_NAME}
+ParameterKey=CrawlerName,ParameterValue=${GLUE_CRAWLER_NAME} > /dev/null
 
 echo "Setting up the dasboard components"
 
@@ -72,15 +72,15 @@ aws cloudformation --region ${AWS_DEFAULT_REGION} package \
 --template-file ./sagemaker-dashboards-for-ml/cloudformation/template.yaml \
 --s3-bucket ${S3_BUCKET_NAME} \
 --s3-prefix cfn \
---output-template-file ../deployment/sagemaker-dashboards-for-ml/packaged.yaml
+--output-template-file ../deployment/sagemaker-dashboards-for-ml/packaged.yaml > /dev/null
 
 aws cloudformation --region ${AWS_DEFAULT_REGION} create-stack \
---stack-name "${stack_name}-sdy" \
+--stack-name "${stack_name}-syd" \
 --template-body file://./sagemaker-dashboards-for-ml/packaged.yaml \
 --capabilities CAPABILITY_IAM \
 --parameters ParameterKey=ResourceName,ParameterValue=streamlit-dashboard-cfn-resource \
 ParameterKey=SageMakerNotebookGitRepository,ParameterValue=https://github.com/aws-samples/streamlit-application-deployment-on-aws.git \
-ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}  --disable-rollback
+ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}  --disable-rollback > /dev/null
 
 echo "Writing environment variables to the config file for the streamlit-package"
 cd ..
@@ -98,12 +98,22 @@ echo "Writing environment variables to delete the resources file"
 
 sed -i -e "s athena_name ${stack_name}-athena  g" delete_resources.sh
 sed -i -e "s glue_name ${stack_name}-glue  g" delete_resources.sh
-sed -i -e "s sdy_name ${stack_name}-sdy g" delete_resources.sh
+sed -i -e "s syd_name ${stack_name}-syd g" delete_resources.sh
 sed -i -e "s your_s3_bucket_name ${S3_BUCKET_NAME} g" delete_resources.sh
 
 rm -rf delete_resources.sh-e
 
 echo "Kicking off glue crawler..."
-aws glue start-crawler --name ${GLUE_CRAWLER_NAME}
+for i in {1..5}
+do
+    echo "retrying ${i}..."
+    aws glue start-crawler --name ${GLUE_CRAWLER_NAME} > /dev/null 2>&1 && break || sleep 10;
+done
 
-echo "Complete"
+if [ $i -lt 5 ]
+then
+    echo "Complete"
+else
+    echo "Failed"
+fi
+
