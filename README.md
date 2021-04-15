@@ -236,6 +236,7 @@ Once you have loaded the URL website, you will be greeted with a login screen fo
 ![cognito](images/CognitoMenu.png)
 
 Once the credentials are entered you will now be able to access the dashboard.
+
 ![dashboard](images/DashboardImage.png)
 
 ### Cleaning Up
