@@ -18,4 +18,5 @@ aws cloudformation delete-stack --stack-name "${syd_stack_name}-syd" > /dev/null
 echo "deleting s3://${S3_BUCKET_NAME}"
 aws s3 rb s3://${S3_BUCKET_NAME} --force > /dev/null
 
+echo "restore delete_resources.sh"
 git checkout -- delete_resources.sh
