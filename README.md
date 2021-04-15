@@ -187,7 +187,7 @@ Go over to Amazon Web Services console and confirm that the notebook instance is
 
 ![sm_menu](images/SageMakerMenu.png)
 
-Go into the notebook via Jupyter and proceed to folder `examples/yahoo_finance`.
+Go into the notebook via Jupyter and proceed to folder `/deployment/sagemaker-dashboards-for-ml/examples/yahoo_finance`.
 
 Next, go to the file `config.py` file under `dashboard/src`.
 ![config_file](images/ConfigFileLocation.png)
