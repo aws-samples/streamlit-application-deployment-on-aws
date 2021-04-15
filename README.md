@@ -162,12 +162,11 @@ ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}
 
 Note the `ParameterKey` and `ParameterValue` provided to the `create-stack` command at the end point to the repository with the Streamlit frontend that is cloned directly into the SageMaker Notebook. In this case, it is https://github.com/aws-samples/streamlit-application-deployment-on-aws. The second parameter is the Cognito login you will need to get inside the dashboard once it is stood up.
 
-The CloudFormation should take some time to standup all the resources.
-Once completed you can go into the AWS console for CloudFormation and confirm that all resources are created.
-The console should have all stacks and nested stacks in the green:
+The CloudFormation should take some time to standup all the resources. Once completed you can go into the AWS console for CloudFormation and confirm that all resources are created. The console should have all stacks and nested stacks in the green:
+
 ![all_green](images/AllGreenCFN.png)
 
-At the end of the bash script, it takes the environment variables set for the stack resource names and writes them to two key files. The first of these is `streamlit-package/dashboard/src/config.py`. This file is used for configuring the frontend deployment of the dashboard once it is inside of the SageMaker notebook. For reference, the code below is what it looks like before `standup.sh`. Note that after the script runs, these will be updated based on how the stack environment variable names were set.
+At the end of the bash script, it takes the environment variables set for the stack resource names and writes them to two key files. The first of these is `streamlit-package/dashboard/script/config.py`. This file is used for configuring the frontend deployment of the dashboard once it is inside of the SageMaker notebook. For reference, the code below is what it looks like before `standup.sh`. Note that after the script runs, these will be updated based on how the stack environment variable names were set.
 
 ```python
 REGION = "your_region_name"
@@ -189,7 +188,8 @@ Go over to Amazon Web Services console and confirm that the notebook instance is
 
 Go into the notebook via Jupyter and proceed to folder `/deployment/sagemaker-dashboards-for-ml/examples/yahoo_finance`.
 
-Next, go to the file `config.py` file under `dashboard/src`.
+Next, go to the file `config.py` file under `dashboard/script`.
+
 ![config_file](images/ConfigFileLocation.png)
 
 Update the Notebook’s `config.py` parameter names with the `config.py` names that populated in your local directory after you ran the `standup.sh` script. Save the changes to the config file.
@@ -231,7 +231,7 @@ print(f"DASHBOARD_URL: https://{DASHBOARD_URL}")
 
 Please note that, you will receive a warning from your browser when accessing the dashboard if you didn't provide a custom SSL certificate when launching the AWS CloudFormation Stack. A self-signed certificate is created and used as a backup but this is certainly not recommended for production use cases. You should obtain an SSL Certificate that has been validated by a certificate authority, import it into [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) and reference this when launching the AWS CloudFormation Stack. Should you wish to continue with the self-signed certificate (for development purposes), you should be able to proceed past the browser warning page. With Chrome, you will see a `Your connection is not private` error message (`NET::ERR_CERT_AUTHORITY_INVALID`), but by clicking on "Advanced" you should then see a link to proceed.
 
-Once you have loaded the URL website, you will be greeted with a login screen for Amazon Cognito. Enter the User Email credentials you set within the `standup.sh` script.
+Once you have loaded the URL website, you will be greeted with a login screen for Amazon Cognito. Enter the User Email credentials you set within the `standup.sh` script. Note that you can always go to the Cognito console to manage the "User Pool" should there be any difficulty to login in.
 
 ![cognito](images/CognitoMenu.png)
 

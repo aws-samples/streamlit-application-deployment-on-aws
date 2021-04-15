@@ -20,4 +20,6 @@ aws s3 rb s3://${S3_BUCKET_NAME} --force > /dev/null
 
 echo "restore delete_resources.sh"
 git checkout -- delete_resources.sh
+
+echo "restore config.py"
 git checkout -- deployment/sagemaker-dashboards-for-ml/examples/yahoo-finance/dashboard/script/config.py
