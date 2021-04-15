@@ -85,7 +85,7 @@ ParameterKey=CognitoAuthenticationSampleUserEmail,ParameterValue=${COGNITO_USER}
 echo "Writing environment variables to the config file for the streamlit-package"
 cd ..
 
-config_file=deployment/sagemaker-dashboards-for-ml/examples/yahoo-finance/dashboard/src/config.py
+config_file=deployment/sagemaker-dashboards-for-ml/examples/yahoo-finance/dashboard/script/config.py
 
 sed -i -e "s your_region_name ${AWS_DEFAULT_REGION} g" ${config_file}
 sed -i -e "s your_bucket_name ${S3_BUCKET_NAME} g"  ${config_file}
