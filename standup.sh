@@ -107,7 +107,7 @@ echo "Kicking off glue crawler..."
 for i in {1..5}
 do
     echo "retrying ${i}..."
-    aws glue start-crawler --name ${GLUE_CRAWLER_NAME} > /dev/null 2>&1 && break || sleep 10;
+    aws glue start-crawler --region ${AWS_DEFAULT_REGION} --name ${GLUE_CRAWLER_NAME} > /dev/null 2>&1 && break || sleep 10;
 done
 
 if [ $i -lt 5 ]
