@@ -160,17 +160,17 @@ Mappings:
     us-east-1:
       id: 127311923021
     us-east-2:
-      id: 33677994240
+      id: 033677994240
     us-west-1:
-      id: 27434742980
+      id: 027434742980
     us-west-2:
       id: 797873946194
     af-south-1:
-      id: 98369216593
+      id: 098369216593
     ca-central-1:
       id: 985666609251
     eu-central-1:
-      id: 54676820928
+      id: 054676820928
     eu-west-1:
       id: 156460612806
     eu-west-2:
@@ -178,7 +178,7 @@ Mappings:
     eu-south-1:
       id: 635631232127
     eu-west-3:
-      id: 9996457667
+      id: 009996457667
     eu-north-1:
       id: 897822967062
     ap-east-1:
@@ -196,7 +196,7 @@ Mappings:
     ap-south-1:
       id: 718504428378
     me-south-1:
-      id: 76674570225
+      id: 076674570225
     sa-east-1:
       id: 507241528517
 
