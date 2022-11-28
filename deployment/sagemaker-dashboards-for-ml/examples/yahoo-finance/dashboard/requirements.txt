@@ -80,7 +80,7 @@ nest-asyncio==1.5.6
     # via
     #   ipykernel
     #   jupyter-client
-numpy==1.19.5
+numpy==1.22.0
     # via
     #   altair
     #   pandas
