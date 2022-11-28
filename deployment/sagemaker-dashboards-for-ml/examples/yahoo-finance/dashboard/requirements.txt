@@ -180,7 +180,7 @@ tzdata==2022.6
     # via pytz-deprecation-shim
 tzlocal==4.2
     # via streamlit
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 validators==0.20.0
     # via streamlit
