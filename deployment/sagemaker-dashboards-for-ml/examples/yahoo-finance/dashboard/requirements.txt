@@ -105,7 +105,7 @@ pillow==9.3.0
     # via streamlit
 prompt-toolkit==3.0.31
     # via ipython
-protobuf==3.15.5
+protobuf==3.18.3
     # via streamlit
 psutil==5.9.3
     # via ipykernel
@@ -147,9 +147,7 @@ rich==12.6.0
 semver==2.13.0
     # via streamlit
 six==1.15.0
-    # via
-    #   protobuf
-    #   python-dateutil
+    # via python-dateutil
 smmap==5.0.0
     # via gitdb
 stack-data==0.6.0
