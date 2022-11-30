@@ -232,7 +232,7 @@ Resources:
               pip install --upgrade pip==20.0.2
               pip uninstall -y nbserverproxy || true
               pip install --upgrade jupyter-server-proxy==1.3.2
-              initctl restart jupyter-server --no-wait
+              systemctl restart jupyter-server --no-block
               # create dashboard env
               conda create -y --name dashboard python=3.6 pip ipykernel
               source /home/ec2-user/anaconda3/bin/activate dashboard
