@@ -158,7 +158,7 @@ toml==0.10.2
     # via streamlit
 toolz==0.12.0
     # via altair
-tornado==6.2
+tornado==6.3.2
     # via
     #   ipykernel
     #   jupyter-client
