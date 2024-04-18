@@ -117,7 +117,7 @@ pyarrow==10.0.0
     # via streamlit
 pydeck==0.7.1
     # via streamlit
-pygments==2.13.0
+pygments==2.15.0
     # via
     #   ipython
     #   rich
