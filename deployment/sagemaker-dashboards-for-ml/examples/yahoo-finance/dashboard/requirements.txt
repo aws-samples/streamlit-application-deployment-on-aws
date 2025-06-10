@@ -140,14 +140,16 @@ pyzmq==24.0.1
     # via
     #   ipykernel
     #   jupyter-client
-requests==2.31.0
+requests==2.32.4
     # via streamlit
 rich==12.6.0
     # via streamlit
 semver==2.13.0
     # via streamlit
 six==1.15.0
-    # via python-dateutil
+    # via
+    #   asttokens
+    #   python-dateutil
 smmap==5.0.0
     # via gitdb
 stack-data==0.6.0
