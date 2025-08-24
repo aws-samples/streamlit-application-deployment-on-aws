@@ -147,7 +147,9 @@ rich==12.6.0
 semver==2.13.0
     # via streamlit
 six==1.15.0
-    # via python-dateutil
+    # via
+    #   asttokens
+    #   python-dateutil
 smmap==5.0.0
     # via gitdb
 stack-data==0.6.0
@@ -178,7 +180,7 @@ tzdata==2022.6
     # via pytz-deprecation-shim
 tzlocal==4.2
     # via streamlit
-urllib3==1.26.5
+urllib3==2.5.0
     # via requests
 validators==0.20.0
     # via streamlit
